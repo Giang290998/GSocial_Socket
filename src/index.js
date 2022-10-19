@@ -3,7 +3,7 @@ let userOnlineArr = []
 let userOnlineNumber = 0
 const io = new Server(7000, {
     cors: {
-        origin: "http://localhost:3000",
+        origin: "https://gsocial.onrender.com/",
     },
     maxHttpBufferSize: 2e8,
     pingTimeout: 40000
