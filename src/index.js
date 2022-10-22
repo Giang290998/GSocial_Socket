@@ -2,6 +2,10 @@ const { Server } = require("socket.io");
 let userOnlineArr = []
 let userOnlineNumber = 0
 const io = new Server(7000, {
+    cors: {
+        origin: "https://gsocial.onrender.com",
+        methods: ["GET", "POST"]
+    },
     maxHttpBufferSize: 2e8,
     pingTimeout: 40000
 })
