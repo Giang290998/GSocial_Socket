@@ -81,10 +81,12 @@ io.on("connection", (socket) => {
 
 const removeUserOnline = (socketId) => {
     const userDisconnect = userOnlineArr.find(user => user.socketId === socketId)
-    const index = userOnlineArr.indexOf(userDisconnect)
-    userOnlineArr.splice(index, 1)
-    io.emit('serverSendUserDisconnect', { userId: userDisconnect.userId })
-    userOnlineNumber = userOnlineNumber - 1
+    if (userDisconnect) {
+        const index = userOnlineArr.indexOf(userDisconnect)
+        userOnlineArr.splice(index, 1)
+        io.emit('serverSendUserDisconnect', { userId: userDisconnect.userId })
+        userOnlineNumber = userOnlineNumber - 1
+    }
 }
 
 const addUserOnline = (userId, socketId, friendArr) => {
