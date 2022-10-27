@@ -92,7 +92,7 @@ const removeUserOnline = (socketId) => {
 const addUserOnline = (userId, socketId, friendArr) => {
     const user = { userId, socketId }
     userOnlineArr.push(user)
-    if (friendArr) {
+    if (friendArr.length > 0) {
         let friendOnlineReturn = []
         friendArr.forEach(friend => {
             const friendOnline = userOnlineArr.find(userOnline => userOnline.userId === friend)
