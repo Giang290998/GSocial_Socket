@@ -3,6 +3,7 @@ let userOnlineArr = []
 let userOnlineNumber = 0
 const io = new Server(7000, {
     cors: {
+        // origin: "http://localhost:3000",
         origin: "https://gsocial.onrender.com",
         methods: ["GET", "POST"]
     },
@@ -35,7 +36,7 @@ io.on("connection", (socket) => {
     socket.on('clientSendMessage', (payload) => {
         const socketIdUserSending = socket.id
         let userOnline = []
-        io.sockets.adapter.rooms.get(payload.roomId).forEach(socketId => {
+        io.sockets.adapter.rooms.get(payload.roomId)?.forEach(socketId => {
             const user = userOnlineArr.find(user => user.socketId === socketId)
             userOnline.push(user.userId)
         })
@@ -43,7 +44,9 @@ io.on("connection", (socket) => {
             userOnline: userOnline,
             ...payload
         }
-        io.to(socketIdUserSending).emit('serverSendBackUserOnline', payloadBack)
+        if (userOnline.length > 0) {
+            io.to(socketIdUserSending).emit('serverSendBackUserOnline', payloadBack)
+        }
         socket.to(payload.roomId).emit('serverSendMessage', payload)
     })
 
@@ -92,7 +95,7 @@ const removeUserOnline = (socketId) => {
 const addUserOnline = (userId, socketId, friendArr) => {
     const user = { userId, socketId }
     userOnlineArr.push(user)
-    if (friendArr.length > 0) {
+    if (friendArr?.length > 0) {
         let friendOnlineReturn = []
         friendArr.forEach(friend => {
             const friendOnline = userOnlineArr.find(userOnline => userOnline.userId === friend)
