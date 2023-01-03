@@ -1,6 +1,12 @@
-const { Server } = require("socket.io");
+import { Server } from "socket.io";
+import fetch from 'node-fetch';
+
 let userOnlineArr = []
 let userOnlineNumber = 0
+setInterval(() => {
+    fetch('https://gsocial-api.onrender.com')
+    .then(res => console.log(res?.data))
+}, 30*1000)
 const io = new Server(7000, {
     cors: {
         // origin: "http://localhost:3000",
